@@ -22,19 +22,25 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	// TODO: реализовать функцию
 	splitData := strings.Split(data, ",")
 	if len(splitData) != 3 {
-		return 0, "", 0, errors.New("некорректное количество строк")
+		err := errors.New("некорректное количество строк")
+		log.Println(err)
+		return 0, "", 0, err
 	}
 
 	steps, err := strconv.Atoi(splitData[0])
 	if err != nil {
+		log.Println(err)
 		return 0, "", 0, err
 	}
 	if steps <= 0 {
-		return 0, "", 0, errors.New("некорректное количество шагов")
+		err := errors.New("некорректное количество шагов")
+		log.Println(err)
+		return 0, "", 0, err
 	}
 
 	duration, err := time.ParseDuration(splitData[2])
 	if err != nil {
+		log.Println(err)
 		return 0, "", 0, err
 	}
 
@@ -61,7 +67,6 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	steps, typeOfActivity, duration, err := parseTraining(data)
 
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 
