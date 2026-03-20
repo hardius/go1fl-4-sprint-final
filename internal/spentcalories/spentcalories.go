@@ -43,6 +43,9 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		log.Println(err)
 		return 0, "", 0, err
 	}
+	if duration <= 0 {
+		return 0, "", 0, errors.New("некорректное значение продолжительности")
+	}
 
 	return steps, splitData[1], duration, nil
 }
@@ -90,18 +93,15 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		return "", errors.New("неизвестный тип тренировки")
 	}
 
-	result := fmt.Sprintf("Тип тренировки: %s \n", typeOfActivity) +
-		fmt.Sprintf("Длительность: %.2f ч. \n", duration.Hours()) +
-		fmt.Sprintf("Дистанция: %.2f км. \n", distance) +
-		fmt.Sprintf("Скорость: %.2f км/ч \n", meanSpeed) +
-		fmt.Sprintf("Сожгли калорий: %.2f \n", calories)
+	result := fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n",
+		typeOfActivity, duration.Hours(), distance, meanSpeed, calories)
 
 	return result, nil
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	// TODO: реализовать функцию
-	if steps <= 0 || weight <= 0 || height <= 0 {
+	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
 		return 0, errors.New("некорректные параметры")
 	}
 
